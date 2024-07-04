@@ -13,8 +13,9 @@ offset_fingers = 12 # 0 degree offset
 mult = 2 # angle multiplier
 write_timeout = 0.01
 ard_port = "COM5"
+ard_pose_port = "COM11"
 cam_port = 1
-rps_enabled = False
+rps_enabled = True
 rps_timer = 0
 rps_duration = 0.75
 rps_order = 0
@@ -40,6 +41,7 @@ def angles2serial(angles):
     return result
 
 ard = arduino.Arduino(ard_port, write_timeout=write_timeout, rate=115200)
+ard_pose = arduino.Arduino(ard_pose_port, write_timeout=write_timeout, rate=115200)
 
 cap = cv2.VideoCapture(cam_port) # cv2.CAP_MSMF cv2.CAP_DSHOW
 #print(f"Backend: {cap.getBackendName()}")
@@ -53,6 +55,8 @@ cap = cv2.VideoCapture(cam_port) # cv2.CAP_MSMF cv2.CAP_DSHOW
 detector_hands = detectors.DetectorHandsSolution()
 rps = RPS()
 mode = 0
+
+ard_pose.write(angles2serial([90, 45, 90, 30]))
 
 start = time.perf_counter()
 while True:
@@ -70,8 +74,8 @@ while True:
             calculate_angles_fingers(hand)
             gesture = rps.detect(angle_fingers)
             if(mode == 0):
-                ard.write(f"{int(angle_fingers[0])} {int(angle_fingers[1])} {int(angle_fingers[2])} {int(angle_fingers[3])} {int(angle_fingers[4])}")
-                print(f"{int(angle_fingers[0])} {int(angle_fingers[1])} {int(angle_fingers[2])} {int(angle_fingers[3])} {int(angle_fingers[4])}")
+                #ard.write(f"{int(angle_fingers[0])} {int(angle_fingers[1])} {int(angle_fingers[2])} {int(angle_fingers[3])} {int(angle_fingers[4])}")
+                print(angles2serial(angle_fingers))
                 #print(reply)
                 if(rps_enabled):
                     if(rps.check_start(gesture)):
@@ -79,19 +83,19 @@ while True:
                         rps_timer = perf_counter()
         if(mode == 1):
             if((perf_counter() - rps_timer) >= rps_duration):
-                print(rps_order)
+                print(f"RPS order: {rps_order}")
                 if(rps_order == 0):
                     rps_order = 1
-                    print(ard.query(angles2serial(rps.countdown_one)))
+                    print(ard.write(angles2serial(rps.countdown_one)))
                 elif(rps_order == 1):
-                    print(ard.query(angles2serial(rps.countdown_two)))
+                    print(ard.write(angles2serial(rps.countdown_two)))
                     rps_order = 2
                 elif(rps_order == 2):
-                    print(ard.query(angles2serial(rps.countdown_three)))
+                    print(ard.write(angles2serial(rps.countdown_three)))
                     rps_order = 3
                 elif(rps_order == 3):
                     response = rps.generate()
-                    print(ard.query(angles2serial(response)))
+                    print(ard.write(angles2serial(response)))
                     rps_order = 4
                     rps_duration = 1.25
                 else:

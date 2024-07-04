@@ -7,7 +7,7 @@ Servo servos[num_servos] = {};
 int angles[num_servos];
 int angles_new[num_servos];
 const int angle_min = 0;
-const int angle_max[num_servos] = {130, 130, 130, 130, 90};
+const int angle_max[num_servos] = {130, 130, 130, 130, 120};
 const int d = 10; // delay between servo steps
 
 void setup() {

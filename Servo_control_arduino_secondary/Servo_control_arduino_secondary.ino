@@ -6,8 +6,8 @@ Servo servos[num_servos] = {};
 
 int angles[num_servos];
 int angles_new[num_servos];
-const int angles_min[num_servos] = {90, 95, 0, 0}; // wrist fixed in place for now
-const int angles_max[num_servos] = {90, 170, 180, 180};
+const int angles_min[num_servos] = {0, 95, 0, 0}; // wrist fixed in place for now
+const int angles_max[num_servos] = {180, 170, 180, 180};
 const int angles_default[num_servos] = {90, 170, 90, 90};
 const int d = 10; // delay between servo steps
 

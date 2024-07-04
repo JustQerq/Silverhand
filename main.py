@@ -95,7 +95,7 @@ while True:
             calculate_angles_fingers(hand)
             gesture = rps.detect(angle_fingers)
             if(mode == 0):
-                reply = ard_fingers.write(f"{int(angle_fingers[0])} {int(angle_fingers[1])} {int(angle_fingers[2])} {int(angle_fingers[3])} {int(angle_fingers[4])}")
+                ard_fingers.write(f"{int(angle_fingers[0])} {int(angle_fingers[1])} {int(angle_fingers[2])} {int(angle_fingers[3])} {int(angle_fingers[4])}")
                 #print(reply)
                 # if(rps_enabled):
                 #     if(rps.check_start(gesture)):

@@ -10,11 +10,16 @@ gestures_fingers = {}
 
 # fingers: pinky to thumb = 1 to 5 (0 to 130 angle)
 
-gestures_pose['thumbs_up'] = [90, 80, 155, 45]
-gestures_fingers['thumbs_up'] = [130, 130, 130, 130, 0]
+gestures_pose['neutral'] = [90, 0, 90, 0]
+gestures_fingers['neutral'] = [0, 0, 0, 0, 0]
 
-gestures_pose['handshake'] = [90, 50, 130, 45]
+gestures_pose['thumbs up'] = [90, 80, 175, 35]
+gestures_fingers['thumbs up'] = [130, 130, 130, 130, 0]
+
+gestures_pose['handshake'] = [90, 40, 110, 20]
 gestures_fingers['handshake'] = [30, 30, 30, 30, 30]
+gestures_pose['rock and roll'] = [90, 95, 175, 35]
+gestures_fingers['rock and roll'] = [0, 130, 130, 0, 0]
 
 def angles2serial(angles):
     result = ""
